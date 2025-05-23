@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DeluxeMenu YAML Generator</title>
+    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="menu-bar">
+                <label>Language:
+                    <select id="language">
+                        <option value="english">english</option>
+                    </select>
+                </label>
+                <button id="clear-btn">CLEAR</button>
+                <button id="clear-slot-btn">Clear slot</button>
+                <button id="remove-row-btn">Remove row</button>
+                <button id="add-row-btn">Add row</button>
+                <button id="hide-extra-btn">Hide extra</button>
+            </div>
+            <div class="minecraft-panel">
+                <div id="rendered-title" class="minecraft-title"></div>
+                <div id="item-grid"></div>
+            </div>
+            <div>
+                <div class="section-title">Menu info:</div>
+                <div class="form-row"><label>menu_title: <input id="menu-title" value="&3Deluxe&6Menu"></label></div>
+                <div class="form-row"><label>open_command: <input id="open-command" value="menu"></label></div>
+                <div class="form-row"><label>register_command:
+                        <select id="register-command">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </label></div>
+                <div class="form-row"><label>update_interval: <input id="update-interval" type="number" min="1"></label>
+                </div>
+                <div class="form-row"><label>open_commands: <textarea id="open-commands" rows="3"
+                            placeholder="- '[sound] BLOCK_CHEST_OPEN'&#10;- '[message] &6&lDeluxe&emenus &8» &7Opening &aServer &7menu.'"></textarea></label>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-title">Item info:</div>
+                <!-- Basic fields -->
+                <div class="form-row basic-item-info">
+                    <label>amount: <input id="item-amount" type="number" min="1" max="64" value="1"></label>
+                </div>
+                <div class="form-row basic-item-info">
+                    <label>display_name: <input id="item-display_name"></label>
+                </div>
+                <div class="form-row basic-item-info">
+                    <label>lore: <textarea id="item-lore"></textarea></label>
+                </div>
+
+                <!-- All other fields are extra -->
+                <div class="form-row extra-item-info"><label>material: <input id="item-material"></label></div>
+                <div class="form-row extra-item-info"><label>data: <input id="item-data"></label></div>
+                <div class="form-row extra-item-info"><label>slot: <input id="item-slot"></label></div>
+                <div class="form-row extra-item-info"><label>slots: <input id="item-slots"></label></div>
+                <div class="form-row extra-item-info"><label>priority: <input id="item-priority"></label></div>
+                <div class="form-row extra-item-info"><label>update: <input id="item-update"></label></div>
+                <div class="form-row extra-item-info"><label>dynamic_amount: <input id="item-dynamic_amount"></label>
+                </div>
+                <div class="form-row extra-item-info"><label>enchantments: <textarea
+                            id="item-enchantments"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>item_flags: <textarea
+                            id="item-item_flags"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>potion_effects: <textarea
+                            id="item-potion_effects"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>entity_type: <input id="item-entity_type"></label></div>
+                <div class="form-row extra-item-info"><label>custom_model_data: <input
+                            id="item-custom_model_data"></label></div>
+                <div class="form-row extra-item-info"><label>unbreakable: <input id="item-unbreakable"></label></div>
+                <div class="form-row extra-item-info"><label>hide_enchantments: <input
+                            id="item-hide_enchantments"></label></div>
+                <div class="form-row extra-item-info"><label>hide_attributes: <input id="item-hide_attributes"></label>
+                </div>
+                <div class="form-row extra-item-info"><label>hide_effects: <input id="item-hide_effects"></label></div>
+                <div class="form-row extra-item-info"><label>hide_unbreakable: <input
+                            id="item-hide_unbreakable"></label></div>
+                <div class="form-row extra-item-info"><label>base_color: <input id="item-base_color"></label></div>
+                <div class="form-row extra-item-info"><label>banner_meta: <input id="item-banner_meta"></label></div>
+                <div class="form-row extra-item-info"><label>player_head: <input id="item-player_head"></label></div>
+                <div class="form-row extra-item-info"><label>skull_owner: <input id="item-skull_owner"></label></div>
+                <div class="form-row extra-item-info"><label>model_data: <input id="item-model_data"></label></div>
+                <div class="form-row extra-item-info"><label>rgb: <input id="item-rgb"></label></div>
+                <div class="form-row extra-item-info"><label>nbt_string: <input id="item-nbt_string"></label></div>
+                <div class="form-row extra-item-info"><label>nbt_int: <input id="item-nbt_int"></label></div>
+                <div class="form-row extra-item-info"><label>nbt: <textarea id="item-nbt"></textarea></label></div>
+
+                <!-- Requirements -->
+                <div class="form-row extra-item-info"><label>view_requirement: <input
+                            id="item-view_requirement"></label></div>
+                <div class="form-row extra-item-info"><label>left_click_requirement: <textarea
+                            id="item-left_click_requirement"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>right_click_requirement: <textarea
+                            id="item-right_click_requirement"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>middle_click_requirement: <textarea
+                            id="item-middle_click_requirement"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>shift_left_click_requirement: <textarea
+                            id="item-shift_left_click_requirement"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>shift_right_click_requirement: <textarea
+                            id="item-shift_right_click_requirement"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>slot_requirement: <input
+                            id="item-slot_requirement"></label></div>
+                <div class="form-row extra-item-info"><label>requirement_list: <textarea
+                            id="item-requirement_list"></textarea></label></div>
+
+                <!-- Commands/Actions -->
+                <div class="form-row extra-item-info"><label>click_commands: <textarea
+                            id="item-click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>left_click_commands: <textarea
+                            id="item-left_click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>right_click_commands: <textarea
+                            id="item-right_click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>middle_click_commands: <textarea
+                            id="item-middle_click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>shift_left_click_commands: <textarea
+                            id="item-shift_left_click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>shift_right_click_commands: <textarea
+                            id="item-shift_right_click_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>actions: <textarea id="item-actions"></textarea></label>
+                </div>
+
+                <!-- Slot-specific -->
+                <div class="form-row extra-item-info"><label>slot_update: <input id="item-slot_update"></label></div>
+                <div class="form-row extra-item-info"><label>slot_priority: <input id="item-slot_priority"></label>
+                </div>
+
+                <!-- Refresh/Update -->
+                <div class="form-row extra-item-info"><label>refresh_commands: <textarea
+                            id="item-refresh_commands"></textarea></label></div>
+                <div class="form-row extra-item-info"><label>refresh_interval: <input
+                            id="item-refresh_interval"></label></div>
+                <div class="form-row extra-item-info"><label>view_update: <input id="item-view_update"></label></div>
+                <div class="form-row extra-item-info"><label>item_update: <input id="item-item_update"></label></div>
+            </div>
+
+
+
+        </div>
+        <div class="right-panel">
+            <div class="menu-bar">
+                <span>YAML config ▼</span>
+                <button class="download-btn" id="download-btn">Download</button>
+            </div>
+            <pre id="yaml-output"></pre>
+        </div>
+    </div>
+    <script type="module" src="js/items.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
