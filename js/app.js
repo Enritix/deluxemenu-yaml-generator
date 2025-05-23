@@ -12,7 +12,7 @@ const MC_COLORS = {
   'c': '#FF5555', 'd': '#FF55FF', 'e': '#FFFF55', 'f': '#FFFFFF'
 };
 const MC_FORMATS = {
-  'l': 'font-weight:bold;',   // Bold
+  'l': 'class="minecraft-bold"',   // Bold
   'm': 'text-decoration:line-through;', // Strikethrough
   'n': 'text-decoration:underline;',    // Underline
   'o': 'font-style:italic;', // Italic
@@ -75,15 +75,38 @@ function renderItemGrid() {
       slot.className = 'item-slot';
       slot.style.position = 'relative';
       if (i === selectedSlot) slot.classList.add('selected');
-      if (configuredItems[i]) {
+
+      const details = itemDetails[i] || {};
+      const material = (details.material || (configuredItems[i] && configuredItems[i].material) || '').toUpperCase();
+
+      if (configuredItems[i] || details.material) {
         const img = document.createElement('img');
-        img.src = configuredItems[i].icon;
-        img.alt = configuredItems[i].name;
-        img.title = configuredItems[i].name;
+
+        if (material === "PLAYER_HEAD") {
+          if (details.skull_owner) {
+            img.src = `https://visage.surgeplay.com/head/32/${encodeURIComponent(details.skull_owner)}`;
+            img.alt = details.skull_owner;
+            img.title = details.skull_owner + "'s Head";
+            img.classList.add('flip-head');
+          } else {
+            // Default Steve hoofd
+            img.src = "https://minecraft-api.vercel.app/images/items/player_head.png";
+            img.alt = "Player Head";
+            img.title = "Player Head";
+          }
+        } else if (configuredItems[i]) {
+          img.src = configuredItems[i].icon;
+          img.alt = configuredItems[i].name;
+          img.title = configuredItems[i].name;
+        } else {
+          // Geen item: toon een barrier of leeg slot
+          img.src = "https://minecraft-api.vercel.app/images/items/barrier.png";
+          img.alt = "No item";
+          img.title = "No item";
+        }
         slot.appendChild(img);
 
-        // Show amount if set and > 1
-        const amount = (itemDetails[i] && itemDetails[i].amount) ? parseInt(itemDetails[i].amount, 10) : 1;
+        const amount = details.amount ? parseInt(details.amount, 10) : 1;
         if (amount > 1) {
           const amountDiv = document.createElement('div');
           amountDiv.className = 'item-amount-overlay';
@@ -91,6 +114,7 @@ function renderItemGrid() {
           slot.appendChild(amountDiv);
         }
       }
+
       slot.onclick = () => {
         selectedSlot = i;
         renderItemGrid();
@@ -99,12 +123,10 @@ function renderItemGrid() {
       slot.ondblclick = () => openItemPicker(i);
       rowDiv.appendChild(slot);
     }
-
-    
-
     itemGrid.appendChild(rowDiv);
   }
 }
+
 
 const amountInput = document.getElementById('item-amount');
 amountInput.min = 1;
@@ -140,6 +162,9 @@ function minecraftCodesToHtml(str) {
       } else if (MC_FORMATS[code]) {
         if (code === 'r') {
           while (openTags.length) result += '</span>', openTags.pop();
+        } else if (code === 'l') {
+          result += `<span class="minecraft-bold">`;
+          openTags.push('format');
         } else {
           result += `<span style="${MC_FORMATS[code]}">`;
           openTags.push('format');
@@ -374,6 +399,33 @@ for (const key of itemFields) {
     };
   }
 }
+
+const toggleBtn = document.getElementById('toggle-mode-btn');
+let showRequirements = false;
+
+function updateToggleVisibility() {
+  const guiFields = document.querySelectorAll('.gui-field');
+  const reqFields = document.querySelectorAll('.requirements-field');
+
+  if (showRequirements) {
+    guiFields.forEach(el => el.classList.add('hide'));
+    reqFields.forEach(el => el.classList.remove('hide'));
+    toggleBtn.textContent = "Show GUI";
+  } else {
+    guiFields.forEach(el => el.classList.remove('hide'));
+    reqFields.forEach(el => el.classList.add('hide'));
+    toggleBtn.textContent = "Show Requirements";
+  }
+}
+
+// Zet standaard op GUI
+updateToggleVisibility();
+
+toggleBtn.onclick = function() {
+  showRequirements = !showRequirements;
+  updateToggleVisibility();
+};
+
 
 
 
